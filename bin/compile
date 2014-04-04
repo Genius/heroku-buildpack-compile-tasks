@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+if [ -f $3/COMPILE_TASKS ]
+then
+    echo 'No $COMPILE_TASKS detected'
+else
+    echo 'Running compile tasks...'
+    cd $1
+    rake -t $(cat $3/COMPILE_TASKS)
+fi
