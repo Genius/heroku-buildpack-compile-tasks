@@ -2,11 +2,26 @@
 
 set -e
 
-if [ -f $3/COMPILE_TASKS ]
+BUNDLE_HOME=vendor/bundle/1.8
+BUNDLE_BIN_PATH=vendor/bundle/bin
+BUNDLE_HOME_BIN_PATH=$BUNDLE_HOME/bin
+RUBY_PATH=/tmp/ruby-1.8.7/bin
+
+if [ -z "$3" ]
+then
+    echo "env argument not provided; skipping environment import"
+else
+    for file in $(ls $3)
+    do
+        eval "export $file=$(cat $3/$file)"
+    done
+fi
+
+if [ -z "$COMPILE_TASKS" ]
 then
     echo 'No $COMPILE_TASKS detected'
 else
-    echo 'Running compile tasks...'
     cd $1
-    rake -t $(cat $3/COMPILE_TASKS)
+    echo $RAILS_ENV
+    env GEM_PATH=$BUNDLE_HOME PATH=$BUNDLE_BIN_PATH:$BUNDLE_HOME_BIN_PATH:$RUBY_PATH:$PATH bundle exec rake -t $COMPILE_TASKS 2>&1
 fi
