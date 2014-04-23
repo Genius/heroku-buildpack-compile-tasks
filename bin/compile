@@ -13,6 +13,8 @@ then
 else
     for file in $(ls $3)
     do
+        echo $file
+        echo "export $file=$(cat $3/$file)"
         eval "export $file=$(cat $3/$file)"
     done
 fi
