@@ -10,7 +10,7 @@ then
   BUNDLE_HOME=vendor/bundle/ruby/$RUBY_BINARY_VERSION
   BUNDLE_BIN_PATH=vendor/bundle/bin
   BUNDLE_HOME_BIN_PATH=$BUNDLE_HOME/bin
-  RUBY_PATH=$(which ruby)
+  RUBY_PATH=bin/ruby
 else
   BUNDLE_HOME=vendor/bundle/1.8
   BUNDLE_BIN_PATH=vendor/bundle/bin
