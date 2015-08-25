@@ -2,7 +2,7 @@
 
 set -e
 
-RUBY_2=$(ruby -e 'print RUBY_VERSION >= "2.0"')
+RUBY_2=$(/app/bin/ruby -e 'print RUBY_VERSION >= "2.0"')
 
 if [ "$RUBY_2" = "true" ]
 then
@@ -11,6 +11,7 @@ then
   BUNDLE_BIN_PATH=vendor/bundle/bin
   BUNDLE_HOME_BIN_PATH=$BUNDLE_HOME/bin
   RUBY_PATH=bin/ruby
+  echo "Using Ruby 2: $(/app/bin/ruby -v)"
 else
   BUNDLE_HOME=vendor/bundle/1.8
   BUNDLE_BIN_PATH=vendor/bundle/bin
