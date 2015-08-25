@@ -2,16 +2,17 @@
 
 set -e
 
-RUBY_2=$(/app/bin/ruby -e 'print RUBY_VERSION >= "2.0"')
+RUBY_DIR=$(find /app/vendor/ -maxdepth 1 -type d -name ruby-* | head -n1)
+RUBY_PATH=$RUBY_DIR/bin/ruby
+RUBY_2=$(${RUBY_PATH} -e 'print RUBY_VERSION >= "2.0"')
 
 if [ "$RUBY_2" = "true" ]
 then
-  RUBY_BINARY_VERSION=$(ruby -e "print RbConfig::CONFIG['ruby_version']")
+  RUBY_BINARY_VERSION=$(${RUBY_PATH} -e "print RbConfig::CONFIG['ruby_version']")
   BUNDLE_HOME=vendor/bundle/ruby/$RUBY_BINARY_VERSION
   BUNDLE_BIN_PATH=vendor/bundle/bin
   BUNDLE_HOME_BIN_PATH=$BUNDLE_HOME/bin
-  RUBY_PATH=bin/ruby
-  echo "Using Ruby 2: $(/app/bin/ruby -v)"
+  echo "Using Ruby 2: $(${RUBY_PATH} -v)"
 else
   BUNDLE_HOME=vendor/bundle/1.8
   BUNDLE_BIN_PATH=vendor/bundle/bin
