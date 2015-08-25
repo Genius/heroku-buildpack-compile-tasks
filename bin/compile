@@ -9,6 +9,7 @@ RUBY_2=$(${RUBY_PATH} -e 'print RUBY_VERSION >= "2.0"')
 echo "here's what's in /app/vendor:"
 echo $(ls -l /app/vendor)
 
+BUILD_DIR=$1
 echo "build dir: ${BUILD_DIR}"
 echo "contents of build dir:"
 echo $(ls -l ${BUILD_DIR})
