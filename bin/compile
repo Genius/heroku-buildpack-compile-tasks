@@ -6,6 +6,9 @@ RUBY_DIR=$(find /app/vendor/ -maxdepth 1 -type d -name ruby-* | head -n1)
 RUBY_PATH=$RUBY_DIR/bin/ruby
 RUBY_2=$(${RUBY_PATH} -e 'print RUBY_VERSION >= "2.0"')
 
+echo "here's what's in /app/vendor:"
+echo $(ls -l /app/vendor)
+
 if [ "$RUBY_2" = "true" ]
 then
   RUBY_BINARY_VERSION=$(${RUBY_PATH} -e "print RbConfig::CONFIG['ruby_version']")
