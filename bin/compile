@@ -4,12 +4,13 @@ set -e
 
 BUILD_DIR=$1
 RUBY_DIR=$(find ${BUILD_DIR}/vendor/ -maxdepth 1 -type d -name ruby-* | head -n1)
-RUBY_PATH=$RUBY_DIR/bin/ruby
-RUBY_2=$(${RUBY_PATH} -e 'print RUBY_VERSION >= "2.0"')
+RUBY_PATH=$RUBY_DIR/bin
+RUBY_BIN=$RUBY_PATH/ruby
+RUBY_2=$(${RUBY_BIN} -e 'print RUBY_VERSION >= "2.0"')
 
 if [ "$RUBY_2" = "true" ]
 then
-  RUBY_BINARY_VERSION=$(${RUBY_PATH} -e "print RbConfig::CONFIG['ruby_version']")
+  RUBY_BINARY_VERSION=$(${RUBY_BIN} -e "print RbConfig::CONFIG['ruby_version']")
   BUNDLE_HOME=vendor/bundle/ruby/$RUBY_BINARY_VERSION
   BUNDLE_BIN_PATH=vendor/bundle/bin
   BUNDLE_HOME_BIN_PATH=$BUNDLE_HOME/bin
