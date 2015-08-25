@@ -2,14 +2,11 @@
 
 set -e
 
-RUBY_DIR=$(find /app/vendor/ -maxdepth 1 -type d -name ruby-* | head -n1)
+BUILD_DIR=$1
+RUBY_DIR=$(find ${BUILD_DIR}/vendor/ -maxdepth 1 -type d -name ruby-* | head -n1)
 RUBY_PATH=$RUBY_DIR/bin/ruby
 RUBY_2=$(${RUBY_PATH} -e 'print RUBY_VERSION >= "2.0"')
 
-echo "here's what's in /app/vendor:"
-echo $(ls -l /app/vendor)
-
-BUILD_DIR=$1
 echo "build dir: ${BUILD_DIR}"
 echo "contents of build dir:"
 echo $(ls -l ${BUILD_DIR})
@@ -44,7 +41,7 @@ if [ -z "$COMPILE_TASKS" ]
 then
     echo 'No $COMPILE_TASKS detected'
 else
-    cd $1
+    cd $BUILD_DIR
     echo $RAILS_ENV
     env GEM_PATH=$BUNDLE_HOME PATH=$BUNDLE_BIN_PATH:$BUNDLE_HOME_BIN_PATH:$RUBY_PATH:$PATH bundle exec rake -t $COMPILE_TASKS 2>&1
 fi
