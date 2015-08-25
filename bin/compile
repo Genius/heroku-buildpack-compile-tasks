@@ -2,10 +2,21 @@
 
 set -e
 
-BUNDLE_HOME=vendor/bundle/1.8
-BUNDLE_BIN_PATH=vendor/bundle/bin
-BUNDLE_HOME_BIN_PATH=$BUNDLE_HOME/bin
-RUBY_PATH=/tmp/ruby-1.8.7/bin
+RUBY_2=$(ruby -e 'print RUBY_VERSION >= "2.0"')
+
+if [ "$RUBY_2" = "true" ]
+then
+  RUBY_BINARY_VERSION=$(ruby -e "print RbConfig::CONFIG['ruby_version']")
+  BUNDLE_HOME=vendor/bundle/ruby/$RUBY_BINARY_VERSION
+  BUNDLE_BIN_PATH=vendor/bundle/bin
+  BUNDLE_HOME_BIN_PATH=$BUNDLE_HOME/bin
+  RUBY_PATH=$(which ruby)
+else
+  BUNDLE_HOME=vendor/bundle/1.8
+  BUNDLE_BIN_PATH=vendor/bundle/bin
+  BUNDLE_HOME_BIN_PATH=$BUNDLE_HOME/bin
+  RUBY_PATH=/tmp/ruby-1.8.7/bin
+fi
 
 if [ -z "$3" ]
 then
