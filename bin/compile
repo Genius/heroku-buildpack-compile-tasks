@@ -3,8 +3,8 @@
 set -e
 
 BUILD_DIR=$1
-RUBY_DIR=$(find ${BUILD_DIR}/vendor/ -maxdepth 1 -type d -name ruby-* | head -n1)
-RUBY_PATH=$RUBY_DIR/bin
+RUBY_BIN=$(find ${BUILD_DIR}/vendor/ -maxdepth 3 -executable -type f -name ruby | head -n1)
+RUBY_PATH=$(dirname $RUBY_BIN)
 RUBY_BIN=$RUBY_PATH/ruby
 RUBY_2=$(${RUBY_BIN} -e 'print RUBY_VERSION >= "2.0"')
 
