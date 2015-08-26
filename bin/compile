@@ -2,10 +2,24 @@
 
 set -e
 
-BUNDLE_HOME=vendor/bundle/1.8
-BUNDLE_BIN_PATH=vendor/bundle/bin
-BUNDLE_HOME_BIN_PATH=$BUNDLE_HOME/bin
-RUBY_PATH=/tmp/ruby-1.8.7/bin
+BUILD_DIR=$1
+RUBY_BIN=$(find ${BUILD_DIR}/vendor/ -maxdepth 3 -executable -type f -name ruby | head -n1)
+RUBY_PATH=$(dirname $RUBY_BIN)
+RUBY_BIN=$RUBY_PATH/ruby
+RUBY_2=$(${RUBY_BIN} -e 'print RUBY_VERSION >= "2.0"')
+
+if [ "$RUBY_2" = "true" ]
+then
+  RUBY_BINARY_VERSION=$(${RUBY_BIN} -e "print RbConfig::CONFIG['ruby_version']")
+  BUNDLE_HOME=vendor/bundle/ruby/$RUBY_BINARY_VERSION
+  BUNDLE_BIN_PATH=vendor/bundle/bin
+  BUNDLE_HOME_BIN_PATH=$BUNDLE_HOME/bin
+else
+  BUNDLE_HOME=vendor/bundle/1.8
+  BUNDLE_BIN_PATH=vendor/bundle/bin
+  BUNDLE_HOME_BIN_PATH=$BUNDLE_HOME/bin
+  RUBY_PATH=/tmp/ruby-1.8.7/bin
+fi
 
 if [ -z "$3" ]
 then
@@ -21,7 +35,7 @@ if [ -z "$COMPILE_TASKS" ]
 then
     echo 'No $COMPILE_TASKS detected'
 else
-    cd $1
+    cd $BUILD_DIR
     echo $RAILS_ENV
     env GEM_PATH=$BUNDLE_HOME PATH=$BUNDLE_BIN_PATH:$BUNDLE_HOME_BIN_PATH:$RUBY_PATH:$PATH bundle exec rake -t $COMPILE_TASKS 2>&1
 fi
