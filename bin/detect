@@ -4,7 +4,7 @@ set -e
 
 if [ -f $1/Rakefile ]
 then
-    echo 'ok'
+    echo 'Genius/heroku-buildpack-compile-tasks'
     exit 0
 else
     echo 'no'
